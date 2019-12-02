@@ -11,16 +11,17 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/")
 @Slf4j
 public class MainController {
-	
-	@GetMapping(value = "/test")
-    public JSONObject logic() {
-		log.info("test");
 
-        JSONObject data = new JSONObject();
-        data.put("code", "100200");
-        data.put("msg", "Success");
-        data.put("data", null);
-        return data;
-    }
+	@GetMapping(value = "/test")
+	public JSONObject logic() {
+		log.info("test");
+		
+		JSONObject data = new JSONObject();
+		data.put("code", "100200");
+		data.put("msg", "Success");
+		data.put("data", null);
+		
+		return data;
+	}
 
 }

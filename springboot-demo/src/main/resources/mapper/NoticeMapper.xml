@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.lunasoft.mapper.NoticeMapper">
+
+    <select id="selectList" parameterType="NoticeInfo" resultType="NoticeInfo">
+        SELECT /* selectList */
+            ID,
+            TITLE,
+            CONTENTS,
+            STATUS,
+            REG_USER,
+            REG_DATE
+        FROM
+            NOTICE
+        WHERE 1=1
+        ORDER BY REG_DATE DESC
+    </select>
+
+    <select id="selectOne" parameterType="NoticeInfo" resultType="NoticeInfo">
+        SELECT /* selectOne */
+            ID,
+            TITLE,
+            CONTENTS,
+            STATUS,
+            REG_USER,
+            REG_DATE
+        FROM
+            NOTICE
+        WHERE 1=1
+            AND ID = #{id}
+    </select>
+
+    <insert id="insertNotice" parameterType="NoticeInfo">
+        INSERT /* insertNotice */
+		INTO NOTICE (
+            TITLE,
+            CONTENTS,
+            STATUS,
+            REG_USER,
+            REG_DATE
+		) VALUES (
+			#{title},
+			#{contents},
+			#{status},
+			#{regUser},
+			NOW()
+		)
+    </insert>
+
+    <update id="updateNotice" parameterType="NoticeInfo">
+        UPDATE /* updateNotice */
+            NOTICE
+        SET
+            TITLE = #{title},
+            CONTENTS = #{contents}
+        WHERE 1=1
+            AND ID = #{id}
+    </update>
+
+    <delete id="deleteNotice" parameterType="NoticeInfo">
+        DELETE /* deleteNotice */
+            FROM NOTICE
+        WHERE 1=1
+            AND ID = #{id}
+    </delete>
+
+</mapper>
