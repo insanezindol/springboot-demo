@@ -12,11 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/")
 @Slf4j
 public class MainController {
-	
+
 	@GetMapping("favicon.ico")
-    @ResponseBody
-    void returnNoFavicon() {
-    }
+	@ResponseBody
+	void returnNoFavicon() {
+	}
 
 	@GetMapping(value = "/test")
 	public JSONObject logic() {
