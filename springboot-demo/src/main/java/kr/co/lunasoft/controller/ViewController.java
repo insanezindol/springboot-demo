@@ -10,16 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ViewController {
 	
-	@RequestMapping(value="test1")
-	public String test1() {
-		log.info("test1");
-		return "test1";
+	@RequestMapping(value="vue1")
+	public String vue1() {
+		return "vue1";
 	}
 
-	@RequestMapping(value="test2")
-	public String test2() {
-		log.info("test2");
-		return "test2";
+	@RequestMapping(value="vue2")
+	public String vue2() {
+		return "vue2";
 	}
 	
 }
