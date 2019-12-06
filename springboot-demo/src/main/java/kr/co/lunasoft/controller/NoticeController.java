@@ -13,6 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import kr.co.lunasoft.model.ResponseInfo;
 import kr.co.lunasoft.model.NoticeInfo;
 import kr.co.lunasoft.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,11 +28,14 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/notice")
 @Slf4j
+@Api(tags = { "1. Notice" })
 public class NoticeController {
 
 	@Autowired
 	private NoticeService noticeService;
 
+	@ApiOperation("MySQL에서 notice table의 모든 데이터를 리턴한다.")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/resource")
 	public JSONObject list() {
 		List<NoticeInfo> list = noticeService.getList();
@@ -36,6 +47,11 @@ public class NoticeController {
 		return obj;
 	}
 
+	@ApiOperation("MySQL에서 notice table의 특정 데이터를 리턴한다.")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "id", value = "조회할 id 값", required = true, dataType = "string", paramType = "path", defaultValue = "1"), 
+	})
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/resource/{id}")
 	public JSONObject get(@PathVariable String id) {
 		NoticeInfo param = new NoticeInfo();
@@ -55,8 +71,10 @@ public class NoticeController {
 		return obj;
 	}
 
+	@ApiOperation("MySQL에서 notice table에 데이터를 저장한다.")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PostMapping(value = "/resource")
-	public JSONObject add(@RequestBody NoticeInfo param) {
+	public JSONObject add(@ApiParam(name = "param", value = "추가할 정보", required = true) @RequestBody NoticeInfo param) {
 		int resultCnt = noticeService.addNotice(param);
 		JSONObject output = new JSONObject();
 		if (resultCnt == 1) {
@@ -69,8 +87,10 @@ public class NoticeController {
 		return output;
 	}
 
+	@ApiOperation("MySQL에서 notice table의 데이터를 수정한다.")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PutMapping(value = "/resource")
-	public JSONObject modify(@RequestBody NoticeInfo param) {
+	public JSONObject modify(@ApiParam(name = "param", value = "수정할 사용자 정보", required = true) @RequestBody NoticeInfo param) {
 		int resultCnt = noticeService.modifyNotice(param);
 		JSONObject output = new JSONObject();
 		if (resultCnt == 1) {
@@ -83,6 +103,11 @@ public class NoticeController {
 		return output;
 	}
 
+	@ApiOperation("MySQL에서 notice table의 데이터를 삭제한다.")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "id", value = "삭제할 id 값", required = true, dataType = "string", paramType = "path", defaultValue = "1"), 
+	})
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@DeleteMapping(value = "/resource/{id}")
 	public JSONObject delete(@PathVariable String id) {
 		NoticeInfo param = new NoticeInfo();

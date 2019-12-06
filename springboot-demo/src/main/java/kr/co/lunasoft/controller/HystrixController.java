@@ -11,13 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import kr.co.lunasoft.model.ResponseInfo;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/hystrix")
 @Slf4j
+@Api(tags = { "6. Hystrix" })
 public class HystrixController {
 	
+	@ApiOperation("시간 오래 걸리는 연산 실행하여 fallbackMethod에서 리턴하는지 확인한다.")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/timeout")
 	@HystrixCommand(commandKey="hystrix-test", fallbackMethod = "test_fallback", commandProperties= {@HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value = "500")})
     public JSONObject timeout() {

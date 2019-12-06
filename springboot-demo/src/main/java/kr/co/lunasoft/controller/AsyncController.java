@@ -12,14 +12,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import kr.co.lunasoft.model.ResponseInfo;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/async")
 @Slf4j
+@Api(tags = { "5. Async" })
 public class AsyncController {
 	
-	@Description("비동기 작업을 호출하고 Callback 함수에서 후속작업을 진행한다.")
+	@ApiOperation("비동기 작업을 호출하고 Callback 함수에서 후속작업을 진행한다.")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/test1")
 	public JSONObject test1() {
 		// thenApply : 후속작업에 결과값 return 가능
@@ -37,7 +44,8 @@ public class AsyncController {
 		return obj;
 	}
 	
-	@Description("동시에 3개의 요청을 호출하고 개별로 진행한다.")
+	@ApiOperation("동시에 3개의 요청을 호출하고 개별로 진행한다.")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/test2")
 	public JSONObject test2() {
 
@@ -55,7 +63,8 @@ public class AsyncController {
 		return obj;
 	}
 	
-	@Description("동시에 3개의 요청을 호출하고 모든 호출이 완성되면 진행한다.")
+	@ApiOperation("동시에 3개의 요청을 호출하고 모든 호출이 완성되면 진행한다.")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/test3")
 	public JSONObject test3() {
 
@@ -80,7 +89,8 @@ public class AsyncController {
 		return obj;
 	}
 	
-	@Description("동시에 3개의 요청을 호출하고 하나라도 호출이 완성되면 진행한다.")
+	@ApiOperation("동시에 3개의 요청을 호출하고 하나라도 호출이 완성되면 진행한다.")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/test4")
 	public JSONObject test4() {
 
