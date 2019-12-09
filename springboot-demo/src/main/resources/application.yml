@@ -1,0 +1,64 @@
+# 기본 환경 선택
+spring:
+  profiles:
+    active: local 
+
+# 공통 환경
+---
+jasypt:
+  encryptor:
+    bean: jasyptStringEncrptor
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+
+logging:
+  level:
+    com:
+      netflix:
+        config:
+          sources:
+            URLConfigurationSource: ERROR
+
+# local 환경
+---
+spring:
+  profiles: local
+  application:
+    name: springboot-demo
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+    throw-exception-if-no-handler-found: true
+  devtools:
+    livereload:
+      enabled: true
+  resources:
+    add-mappings: false
+# jdbc:log4jdbc:mysql://127.0.0.1:3306/appdb?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+# appuser
+# 123456
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: ENC(e5gr4ZQhQNBjUGrf/nMNrllmas6laz4Idx4WTldI9oJOdtq5jLdrXZKHxE4OGlNQ89RkCuM+yRapEpC49C3av9cSHlR5Sjk2VTj/Org4tLmDU4ZhaiGy6kCyZVmXDbf24NrR1q1b4eKE8U/ezdXlbLzrl0anBv3f5NVro6UmWYI=)
+    username: ENC(TjWinjUKrOPY/tBd3lKezQ==)
+    password: ENC(69KbjnpfEVS9QUov4JTBEA==)
+    tomcat:
+      validation-query: SELECT 1
+# mongodb://127.0.0.1:27017
+# testdb
+# tester
+# 1234
+  data:
+    mongodb:
+      uri: ENC(8hu5zXbvpvcu1pLLes1aUF+Tnuapc6s31Z4u4GuO3nSHEkQCttSZhw==)
+      database: ENC(zZt+JED9H2PdIsylssNlgg==)
+      username: ENC(ysvKN/6VkZjVAmyIvv5M7g==)
+      password: ENC(d+LnXyw+5EIGoyle383u5A==)
+  kafka:
+    consumer:
+      group-id: springboot-demo
+    bootstrap-servers: 127.0.0.1:9092
