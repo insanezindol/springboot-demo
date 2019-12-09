@@ -1,5 +1,10 @@
 package kr.co.lunasoft.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import kr.co.lunasoft.model.ResponseInfo;
+import kr.co.lunasoft.util.HttpConnectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -27,6 +33,26 @@ public class MainController {
 
 	@GetMapping(value = "/health-check")
 	public JSONObject healthCheck() {
+		JSONObject data = new JSONObject();
+		data.put("code", "100200");
+		data.put("msg", "Success");
+		data.put("data", null);
+		return data;
+	}
+	
+	@GetMapping(value = "/call-check")
+	public JSONObject callCheck() {
+		String serverUrl = "https://api.upbit.com/v1/orderbook";
+		
+		List<NameValuePair> parameters = new ArrayList<>();
+		parameters.add(new BasicNameValuePair("markets", "KRW-BTC"));
+		
+		String result1 = HttpConnectionUtil.sendGet(serverUrl, parameters);
+		String result2 = HttpConnectionUtil.sendPost(serverUrl, parameters);
+		
+		log.info(result1);
+		log.info(result2);
+		
 		JSONObject data = new JSONObject();
 		data.put("code", "100200");
 		data.put("msg", "Success");
