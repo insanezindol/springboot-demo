@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/view")
 @Slf4j
-@Api(tags = { "7. View" })
+@Api(tags = { "8. View" })
 public class ViewController {
 	
 	@ApiOperation("vue.js sample page")

@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/redis")
 @Slf4j
-@Api(tags = { "3. Redis" })
+@Api(tags = { "4. Redis" })
 public class RedisController {
 	
 	@Autowired

@@ -90,7 +90,7 @@ public class NoticeController {
 	@ApiOperation("MySQL에서 notice table의 데이터를 수정한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PutMapping(value = "/resource")
-	public JSONObject modify(@ApiParam(name = "param", value = "수정할 사용자 정보", required = true) @RequestBody NoticeInfo param) {
+	public JSONObject modify(@ApiParam(name = "param", value = "수정할 정보", required = true) @RequestBody NoticeInfo param) {
 		int resultCnt = noticeService.modifyNotice(param);
 		JSONObject output = new JSONObject();
 		if (resultCnt == 1) {

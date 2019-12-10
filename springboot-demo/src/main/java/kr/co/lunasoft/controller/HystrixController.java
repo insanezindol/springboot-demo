@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/hystrix")
 @Slf4j
-@Api(tags = { "6. Hystrix" })
+@Api(tags = { "7. Hystrix" })
 public class HystrixController {
 	
 	@ApiOperation("시간 오래 걸리는 연산 실행하여 fallbackMethod에서 리턴하는지 확인한다.")

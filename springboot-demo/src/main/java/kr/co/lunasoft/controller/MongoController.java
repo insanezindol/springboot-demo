@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/mongo")
 @Slf4j
-@Api(tags = { "2. MongoDB" })
+@Api(tags = { "3. MongoDB" })
 public class MongoController {
 	
 	@Autowired

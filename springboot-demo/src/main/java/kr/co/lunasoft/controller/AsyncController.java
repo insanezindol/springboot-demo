@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/async")
 @Slf4j
-@Api(tags = { "5. Async" })
+@Api(tags = { "6. Async" })
 public class AsyncController {
 	
 	@ApiOperation("비동기 작업을 호출하고 Callback 함수에서 후속작업을 진행한다.")

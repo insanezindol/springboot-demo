@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/kafka")
 @Slf4j
-@Api(tags = { "4. Kafka" })
+@Api(tags = { "5. Kafka" })
 public class KafkaController {
 	
 	@Autowired
