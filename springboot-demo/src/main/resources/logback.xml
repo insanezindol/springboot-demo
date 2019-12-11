@@ -21,6 +21,8 @@
     <logger name="jdbc.resultset" level="OFF"/>
     <logger name="jdbc.resultsettable" level="INFO"/>
     <logger name="jdbc.connection" level="OFF"/>
+    
+    <logger name="io.swagger.models.parameters.AbstractSerializableParameter" level="ERROR" />
 
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
