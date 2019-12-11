@@ -22,4 +22,5 @@ public class ResponseInfo {
         this.data = data;
         this.msg = msg;
     }
+    
 }
