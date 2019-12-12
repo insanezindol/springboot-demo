@@ -12,7 +12,7 @@ public class DefaultExceptionHandler {
 
 	@ExceptionHandler(value = Exception.class)
 	public ResponseInfo defaultExceptionMethod(Exception e) {
-		// log.error("[ERROR] - " + e.getMessage());
+		log.error("[ERROR] - " + e.getMessage());
 		ResponseInfo responseInfo = new ResponseInfo("100104", null, "Invalid Api");
 		return responseInfo;
 	}

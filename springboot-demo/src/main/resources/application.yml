@@ -34,6 +34,12 @@ logging:
           sources:
             URLConfigurationSource: ERROR
 
+elasticsearch:
+  host: 127.0.0.1
+  port: 9200
+  user: elastic
+  password: changeme
+  
 # local 환경
 ---
 spring:
@@ -71,3 +77,5 @@ spring:
     consumer:
       group-id: springboot-demo
     bootstrap-servers: 127.0.0.1:9092
+  main:
+    allow-bean-definition-overriding: true

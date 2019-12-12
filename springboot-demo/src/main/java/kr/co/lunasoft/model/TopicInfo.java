@@ -40,11 +40,5 @@ public class TopicInfo {
 	@Column(name = "created")
 	@CreationTimestamp
 	private Date created;
-	
-	@Builder
-    public TopicInfo(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
 
 }
