@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import kr.co.lunasoft.model.DeptInfo;
 import kr.co.lunasoft.model.ResponseInfo;
 import kr.co.lunasoft.model.UserInfo;
 import kr.co.lunasoft.util.ElasticApi;
@@ -60,11 +61,30 @@ public class ElasticSearchController {
 		@ApiImplicitParam(name = "type", value = "조회할 type 값", required = true, dataType = "string", paramType = "path", defaultValue = "dean"), 
 		})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
-	@PostMapping(value = "/resource/{index}/{type}")
-	public JSONObject postResource(@PathVariable String index, @PathVariable String type, @ApiParam(name = "userInfo", value = "추가할 사용자 정보", required = true) @RequestBody UserInfo userInfo) {
+	@PostMapping(value = "/resource/user/{index}/{type}")
+	public JSONObject postUserInfoResource(@PathVariable String index, @PathVariable String type, @ApiParam(name = "userInfo", value = "추가할 사용자 정보", required = true) @RequestBody UserInfo userInfo) {
 		String url = index + "/" + type;
 
 		Map<String, Object> result = elasticApi.callElasticApi("POST", url, userInfo, null);
+
+		JSONObject obj = new JSONObject();
+		obj.put("code", "100200");
+		obj.put("msg", "success");
+		obj.put("data", result);
+		return obj;
+	}
+	
+	@ApiOperation("엘라스틱서치 POST 전송 (id없이 전송)")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "index", value = "조회할 index 값", required = true, dataType = "string", paramType = "path", defaultValue = "lunasoft"), 
+		@ApiImplicitParam(name = "type", value = "조회할 type 값", required = true, dataType = "string", paramType = "path", defaultValue = "dean"), 
+		})
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
+	@PostMapping(value = "/resource/dept/{index}/{type}")
+	public JSONObject postDeptInfoResource(@PathVariable String index, @PathVariable String type, @ApiParam(name = "deptInfo", value = "추가할 부서 정보", required = true) @RequestBody DeptInfo deptInfo) {
+		String url = index + "/" + type;
+
+		Map<String, Object> result = elasticApi.callElasticApi("POST", url, deptInfo, null);
 
 		JSONObject obj = new JSONObject();
 		obj.put("code", "100200");
@@ -80,7 +100,7 @@ public class ElasticSearchController {
 		@ApiImplicitParam(name = "id", value = "조회할 id 값", required = true, dataType = "string", paramType = "path", defaultValue = "1"), 
 		})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
-	@PutMapping(value = "/resource/{index}/{type}/{id}")
+	@PutMapping(value = "/resource/user/{index}/{type}/{id}")
 	public JSONObject putResource(@PathVariable String index, @PathVariable String type, @PathVariable String id, @ApiParam(name = "userInfo", value = "추가할 사용자 정보", required = true) @RequestBody UserInfo userInfo) {
 		String url = index + "/" + type + "/" + id;
 
