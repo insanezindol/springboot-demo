@@ -14,6 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 @Api(tags = { "8. View" })
 public class ViewController {
 	
+	@ApiOperation("index page")
+	@GetMapping(value="index")
+	public String index() {
+		return "index";
+	}
+	
 	@ApiOperation("vue.js sample page")
 	@GetMapping(value="vue1")
 	public String vue1() {
