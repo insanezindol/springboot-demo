@@ -35,7 +35,7 @@ logging:
             URLConfigurationSource: ERROR
 
 elasticsearch:
-  host: 127.0.0.1
+  host: 172.17.28.212
   port: 9200
   user: elastic
   password: changeme
@@ -58,7 +58,7 @@ spring:
 # 123456
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: ENC(e5gr4ZQhQNBjUGrf/nMNrllmas6laz4Idx4WTldI9oJOdtq5jLdrXZKHxE4OGlNQ89RkCuM+yRapEpC49C3av9cSHlR5Sjk2VTj/Org4tLmDU4ZhaiGy6kCyZVmXDbf24NrR1q1b4eKE8U/ezdXlbLzrl0anBv3f5NVro6UmWYI=)
+    url: jdbc:log4jdbc:mysql://172.17.28.212:3306/appdb?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: ENC(TjWinjUKrOPY/tBd3lKezQ==)
     password: ENC(69KbjnpfEVS9QUov4JTBEA==)
     tomcat:
@@ -69,13 +69,16 @@ spring:
 # 1234
   data:
     mongodb:
-      uri: ENC(8hu5zXbvpvcu1pLLes1aUF+Tnuapc6s31Z4u4GuO3nSHEkQCttSZhw==)
+      uri: mongodb://172.17.28.212:27017
       database: ENC(zZt+JED9H2PdIsylssNlgg==)
       username: ENC(ysvKN/6VkZjVAmyIvv5M7g==)
       password: ENC(d+LnXyw+5EIGoyle383u5A==)
+  redis:
+    host: 172.17.28.212
+    port: 6379
   kafka:
     consumer:
       group-id: springboot-demo
-    bootstrap-servers: 127.0.0.1:9092
+    bootstrap-servers: 172.17.28.212:9092
   main:
     allow-bean-definition-overriding: true

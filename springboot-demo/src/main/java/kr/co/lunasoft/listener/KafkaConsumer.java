@@ -13,7 +13,7 @@ public class KafkaConsumer {
 	public void receiveTestTopic(String payload) {
 		log.info("[TEST] received payload='{}'", payload);
 	}
-	
+
 	@KafkaListener(topics = "dean")
 	public void receiveDeanTopic(String payload) {
 		log.info("[DEAN] received payload='{}'", payload);
