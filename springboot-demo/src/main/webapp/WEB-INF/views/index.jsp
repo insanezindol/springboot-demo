@@ -294,13 +294,7 @@
                                 <h4 class="box-title">Traffic </h4>
                             </div>
                             <div class="row">
-                                <div class="col-lg-8">
-                                    <div class="card-body">
-                                        <!-- <canvas id="TrafficChart"></canvas>   -->
-                                        <div id="traffic-chart" class="traffic-chart"></div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-12">
                                     <div class="card-body">
                                         <div class="progress-box progress-1">
                                             <h4 class="por-title">Visits</h4>
@@ -365,11 +359,11 @@
     <!-- /#right-panel -->
 
     <!-- Scripts -->
-    <script src="/assets/js/jquery-3.4.1.js"></script>
+    <!-- <script src="/assets/js/jquery-3.4.1.js"></script>
     <script src="/assets/js/popper.min.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/assets/js/jquery.matchHeight.js"></script>
-    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/main.js"></script> -->
 
 </body>
 </html>
