@@ -1,23 +1,20 @@
 package kr.co.lunasoft.util;
 
-import com.google.gson.Gson;
-import org.apache.http.Header;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.entity.ContentType;
-import org.apache.http.message.BasicHeader;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
+import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.elasticsearch.client.Request;
 
-import java.util.Base64;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gson.Gson;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,56 +23,42 @@ import lombok.extern.slf4j.Slf4j;
 public class ElasticApi {
 
 	@Value("${elasticsearch.host}")
-	private String host;
+	private String HOST;
 
 	@Value("${elasticsearch.port}")
-	private int port;
-	
-	@Value("${elasticsearch.user}")
-	private String user;
-	
-	@Value("${elasticsearch.password}")
-	private String password;
+	private int PORT;
 
 	/**
-	 * 엘라스틱서치에서 제공하는 api를 이용한 전송메소드
+	 * 엘라스틱서치에서 제공하는 api를 이용한 전송 메소드 (동기)
 	 * 
 	 * @param method
 	 * @param url
 	 * @param obj
-	 * @param jsonData
 	 * @return
 	 */
-	public Map<String, Object> callElasticApi(String method, String url, Object obj, String jsonData) {
+	public Map<String, Object> callElasticApi(String method, String url, Object obj) {
 		Map<String, Object> result = new HashMap<>();
 
-		String jsonString;
-		// json형태의 파라미터가 아니라면 gson으로 만들어주자.
-		if (jsonData == null) {
-			Gson gson = new Gson();
-			jsonString = gson.toJson(obj);
-		} else {
-			jsonString = jsonData;
-		}
+		// object to string
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(obj);
 
-		// 엘라스틱서치에서 제공하는 restClient를 통해 엘라스틱서치에 접속한다
-		try (RestClient restClient = RestClient.builder(new HttpHost(host, port)).build()) {
-			// 엘라스틱서치에서 제공하는 response 객체
-			Response response = null;
+		RestClient restClient = null;
+		try {
+			restClient = RestClient.builder(new HttpHost(HOST, PORT, "http")).build();
 
-			// GET, DELETE 메소드는 HttpEntity가 필요없다
+			Request request = new Request(method, url);
+
 			if (method.equals("GET") || method.equals("DELETE")) {
-				Request request = new Request(method, url);
-				response = restClient.performRequest(request);
+				// GET, DELETE 메소드는 HttpEntity가 필요없다
 			} else {
 				HttpEntity entity = new NStringEntity(jsonString, ContentType.APPLICATION_JSON);
-				Request request = new Request(method, url);
 				request.setEntity(entity);
-				response = restClient.performRequest(request);
 			}
-			// 앨라스틱서치에서 리턴되는 응답코드를 받는다
+
+			Response response = restClient.performRequest(request);
+
 			int statusCode = response.getStatusLine().getStatusCode();
-			// 엘라스틱서치에서 리턴되는 응답메시지를 받는다
 			String responseBody = EntityUtils.toString(response.getEntity());
 
 			log.info("[" + statusCode + "] : " + responseBody);
@@ -85,55 +68,16 @@ public class ElasticApi {
 		} catch (Exception e) {
 			result.put("resultCode", -1);
 			result.put("resultBody", e.toString());
+			log.error("[E02] " + e.toString());
+		} finally {
+			try {
+				restClient.close();
+			} catch (Exception e) {
+				log.error("[E03] " + e.toString());
+			}
 		}
+
 		return result;
 	}
-	
-	public Map<String, Object> callElasticApiAuth(String method, String url, Object obj, String jsonData) {
-        Map<String, Object> result = new HashMap<>();
-
-        String jsonString;
-        //json형태의 파라미터가 아니라면 gson으로 만들어주자.
-        if (jsonData == null) {
-            Gson gson = new Gson();
-            jsonString = gson.toJson(obj);
-        } else {
-            jsonString = jsonData;
-        }
-
-        //엘라스틱서치에서 제공하는 restClient를 통해 엘라스틱서치에 접속한다
-        try(RestClient restClient = RestClient.builder(new HttpHost(host, port)).build()) {
-            String auth = user+":"+password;
-            String basicAuth  = "Basic "+ Base64.getEncoder().encodeToString(auth.getBytes());
-            Header[] headers = {
-                    new BasicHeader("Authorization", basicAuth)
-            };
-            Map<String, String> params =  Collections.singletonMap("pretty", "true");
-            //엘라스틱서치에서 제공하는 response 객체
-            Response response = null;
-
-            //GET, DELETE 메소드는 HttpEntity가 필요없다
-            if (method.equals("GET") || method.equals("DELETE")) {
-				Request request = new Request(method, url);
-				response = restClient.performRequest(request);
-			} else {
-				HttpEntity entity = new NStringEntity(jsonString, ContentType.APPLICATION_JSON);
-				Request request = new Request(method, url);
-				request.setEntity(entity);
-				response = restClient.performRequest(request);
-			}
-            
-            //앨라스틱서치에서 리턴되는 응답코드를 받는다
-            int statusCode = response.getStatusLine().getStatusCode();
-            //엘라스틱서치에서 리턴되는 응답메시지를 받는다
-            String responseBody = EntityUtils.toString(response.getEntity());
-            result.put("resultCode", statusCode);
-            result.put("resultBody", responseBody);
-        } catch (Exception e) {
-            result.put("resultCode", -1);
-            result.put("resultBody", e.toString());
-        }
-        return result;
-    }
 
 }
