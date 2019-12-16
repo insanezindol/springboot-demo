@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiResponses;
 import kr.co.lunasoft.model.DeptInfo;
 import kr.co.lunasoft.model.ResponseInfo;
 import kr.co.lunasoft.model.UserInfo;
+import kr.co.lunasoft.util.DateUtil;
 import kr.co.lunasoft.util.ElasticApi;
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,7 +65,7 @@ public class ElasticSearchController {
 	@PostMapping(value = "/user/{index}/{type}")
 	public JSONObject postUserInfoResource(@PathVariable String index, @PathVariable String type, @ApiParam(name = "userInfo", value = "추가할 사용자 정보", required = true) @RequestBody UserInfo userInfo) {
 		String url = index + "/" + type;
-
+		userInfo.setRequestTime(DateUtil.getNowDatetime());
 		Map<String, Object> result = elasticApi.callElasticApi("POST", url, userInfo);
 
 		JSONObject obj = new JSONObject();
@@ -83,7 +84,7 @@ public class ElasticSearchController {
 	@PostMapping(value = "/dept/{index}/{type}")
 	public JSONObject postDeptInfoResource(@PathVariable String index, @PathVariable String type, @ApiParam(name = "deptInfo", value = "추가할 부서 정보", required = true) @RequestBody DeptInfo deptInfo) {
 		String url = index + "/" + type;
-
+		deptInfo.setRequestTime(DateUtil.getNowDatetime());
 		Map<String, Object> result = elasticApi.callElasticApi("POST", url, deptInfo);
 
 		JSONObject obj = new JSONObject();
@@ -103,7 +104,7 @@ public class ElasticSearchController {
 	@PutMapping(value = "/user/{index}/{type}/{id}")
 	public JSONObject putResource(@PathVariable String index, @PathVariable String type, @PathVariable String id, @ApiParam(name = "userInfo", value = "추가할 사용자 정보", required = true) @RequestBody UserInfo userInfo) {
 		String url = index + "/" + type + "/" + id;
-
+		userInfo.setRequestTime(DateUtil.getNowDatetime());
 		Map<String, Object> result = elasticApi.callElasticApi("PUT", url, userInfo);
 
 		JSONObject obj = new JSONObject();

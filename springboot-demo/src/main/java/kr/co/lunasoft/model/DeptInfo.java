@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
@@ -21,5 +22,8 @@ public class DeptInfo {
 
 	@Column(name = "loc")
 	private String loc;
+	
+	@ApiModelProperty(value = "생성일")
+	private String requestTime;
 
 }

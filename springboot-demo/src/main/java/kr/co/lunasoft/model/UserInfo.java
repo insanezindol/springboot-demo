@@ -16,4 +16,8 @@ public class UserInfo {
     
 	@ApiModelProperty(value = "주소")
 	private String address;
+	
+	@ApiModelProperty(value = "생성일")
+	private String requestTime;
+	
 }
