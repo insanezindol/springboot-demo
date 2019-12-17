@@ -20,8 +20,6 @@ logging:
 elasticsearch:
   host: docker_host
   port: 9200
-  user: elastic
-  password: changeme
   
 # local 환경
 ---    
