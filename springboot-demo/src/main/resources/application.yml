@@ -9,23 +9,6 @@ jasypt:
   encryptor:
     bean: jasyptStringEncrptor
 
-server:
-  port: 8080
-  servlet:
-    context-path: /
-  max-http-header-size: 8KB
-  tomcat:
-    max-threads: 100
-    max-swallow-size: 2MB
-    max-http-form-post-size: 2MB    accesslog:
-      enabled: true
-      prefix: access_log_dean_demo
-      pattern: "[%A] [%v] [%{yyyy-MM-dd HH:mm:ss}t]  [%a] [%h] [%S] [accesslog] [%m] [%r] [%{User-Agent}i]"
-    basedir: E:\access_log
-  error:
-    whitelabel:
-      enabled: false
-
 logging:
   level:
     com:
@@ -41,9 +24,10 @@ elasticsearch:
   password: changeme
   
 # local 환경
----
+---    
 spring:
   profiles: local
+  
   application:
     name: springboot-demo
   mvc:
@@ -82,3 +66,83 @@ spring:
     bootstrap-servers: docker_host:9092
   main:
     allow-bean-definition-overriding: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  max-http-header-size: 8KB
+  tomcat:
+    max-threads: 100
+    max-swallow-size: 2MB
+    max-http-form-post-size: 2MB
+    accesslog:
+      enabled: true
+      prefix: access_log_dean_demo
+      pattern: "[%A] [%v] [%{yyyy-MM-dd HH:mm:ss}t]  [%a] [%h] [%S] [accesslog] [%m] [%r] [%{User-Agent}i]"
+    basedir: E:\access_log
+  error:
+    whitelabel:
+      enabled: false
+      
+# real 환경
+---    
+spring:
+  profiles: real
+  
+  application:
+    name: springboot-demo
+  mvc:
+    throw-exception-if-no-handler-found: true
+  devtools:
+    livereload:
+      enabled: true
+  resources:
+    add-mappings: false
+# jdbc:log4jdbc:mysql://127.0.0.1:3306/appdb?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+# appuser
+# 123456
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://docker_host:3306/appdb?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: ENC(TjWinjUKrOPY/tBd3lKezQ==)
+    password: ENC(69KbjnpfEVS9QUov4JTBEA==)
+    tomcat:
+      validation-query: SELECT 1
+# mongodb://127.0.0.1:27017
+# testdb
+# tester
+# 1234
+  data:
+    mongodb:
+      uri: mongodb://docker_host:27017
+      database: ENC(zZt+JED9H2PdIsylssNlgg==)
+      username: ENC(ysvKN/6VkZjVAmyIvv5M7g==)
+      password: ENC(d+LnXyw+5EIGoyle383u5A==)
+  redis:
+    host: docker_host
+    port: 6379
+  kafka:
+    consumer:
+      group-id: springboot-demo
+    bootstrap-servers: docker_host:9092
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  max-http-header-size: 8KB
+  tomcat:
+    max-threads: 100
+    max-swallow-size: 2MB
+    max-http-form-post-size: 2MB
+    accesslog:
+      enabled: true
+      prefix: access_log_dean_demo
+      pattern: "[%A] [%v] [%{yyyy-MM-dd HH:mm:ss}t]  [%a] [%h] [%S] [accesslog] [%m] [%r] [%{User-Agent}i]"
+    basedir: /home/dean/access_log
+  error:
+    whitelabel:
+      enabled: false
