@@ -9,32 +9,32 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import kr.co.lunasoft.model.UserInfo;
+import kr.co.lunasoft.model.HumanInfo;
 
 @Service
 public class MongoService {
-	
+
 	@Autowired
-    MongoTemplate mongoTemplate;
-	
-	public List<UserInfo> getList() {
-        return mongoTemplate.findAll(UserInfo.class, "user");
-    }
+	MongoTemplate mongoTemplate;
 
-    public UserInfo getOne(String name) {
-        return mongoTemplate.findOne(new Query(Criteria.where("name").is(name)), UserInfo.class, "user");
-    }
+	public List<HumanInfo> getList() {
+		return mongoTemplate.findAll(HumanInfo.class, "human");
+	}
 
-    public void add(UserInfo param) {
-        mongoTemplate.save(param, "user");
-    }
+	public HumanInfo getOne(String name) {
+		return mongoTemplate.findOne(new Query(Criteria.where("name").is(name)), HumanInfo.class, "human");
+	}
 
-    public void modify(UserInfo param) {
-        mongoTemplate.findAndModify(new Query(Criteria.where("id").is(param.getId())), new Update().set("name",param.getName()).set("address",param.getAddress()), UserInfo.class, "user");
-    }
+	public void add(HumanInfo param) {
+		mongoTemplate.save(param, "human");
+	}
 
-    public void delete(String id) {
-        mongoTemplate.remove(new Query(Criteria.where("id").is(id)), UserInfo.class,"user");
-    }
+	public void modify(HumanInfo param) {
+		mongoTemplate.findAndModify(new Query(Criteria.where("_id").is(param.getId())), new Update().set("name", param.getName()).set("gender", param.getGender()), HumanInfo.class, "human");
+	}
+
+	public void delete(String id) {
+		mongoTemplate.remove(new Query(Criteria.where("_id").is(id)), HumanInfo.class, "human");
+	}
 
 }
