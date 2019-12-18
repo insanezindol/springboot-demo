@@ -68,12 +68,12 @@ public class ElasticApi {
 		} catch (Exception e) {
 			result.put("resultCode", -1);
 			result.put("resultBody", e.toString());
-			log.error("[E02] " + e.toString());
+			log.error("[E01] " + e.toString());
 		} finally {
 			try {
 				restClient.close();
 			} catch (Exception e) {
-				log.error("[E03] " + e.toString());
+				log.error("[E02] " + e.toString());
 			}
 		}
 
