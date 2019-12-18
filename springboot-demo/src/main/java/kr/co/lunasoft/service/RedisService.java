@@ -9,20 +9,20 @@ import org.springframework.stereotype.Service;
 public class RedisService {
 
 	@Autowired
-	StringRedisTemplate redisTemplate;
+	StringRedisTemplate stringRedisTemplate;
 
 	public String get(String key) {
-		ValueOperations<String, String> vop = redisTemplate.opsForValue();
+		ValueOperations<String, String> vop = stringRedisTemplate.opsForValue();
 		return vop.get(key);
 	}
 
 	public void set(String key, String value) {
-		ValueOperations<String, String> vop = redisTemplate.opsForValue();
+		ValueOperations<String, String> vop = stringRedisTemplate.opsForValue();
 		vop.set(key, value);
 	}
 
 	public Boolean del(String key) {
-		return redisTemplate.delete(key);
+		return stringRedisTemplate.delete(key);
 	}
 
 }

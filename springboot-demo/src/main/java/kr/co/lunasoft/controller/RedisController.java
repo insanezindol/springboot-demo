@@ -6,15 +6,20 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import kr.co.lunasoft.model.HumanInfo;
 import kr.co.lunasoft.model.ResponseInfo;
 import kr.co.lunasoft.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,68 +29,120 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Api(tags = { "4. Redis" })
 public class RedisController {
-	
+
 	@Autowired
-    private RedisService redisService;
+	private RedisService redisService;
 
 	@ApiOperation("redis에서 해당key의 value를 리턴한다.")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "key", value = "조회할 key 값", required = true, dataType = "string", paramType = "path", defaultValue = "test_key"), 
-	})
+	@ApiImplicitParams({ @ApiImplicitParam(name = "key", value = "조회할 key 값", required = true, dataType = "string", paramType = "path", defaultValue = "test_key"), })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
-    @GetMapping(value = "/get/{key}")
-    public JSONObject get(@PathVariable String key) {
-        JSONObject obj = new JSONObject();
+	@GetMapping(value = "/get/str/{key}")
+	public JSONObject getStr(@PathVariable String key) {
+		JSONObject obj = new JSONObject();
 
-        obj.put("code", "100200");
-        obj.put("msg", "success");
-        obj.put("data", redisService.get(key));
-        return obj;
-    }
+		obj.put("code", "100200");
+		obj.put("msg", "success");
+		obj.put("data", redisService.get(key));
+		return obj;
+	}
 
 	@ApiOperation("redis에 key의 value를 저장한다.")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "key", value = "저장할 key 값", required = true, dataType = "string", paramType = "path", defaultValue = "test_key"),
-		@ApiImplicitParam(name = "value", value = "저장할 value 값", required = true, dataType = "string", paramType = "path", defaultValue = "test_value"),
-	})
+	@ApiImplicitParams({ @ApiImplicitParam(name = "key", value = "저장할 key 값", required = true, dataType = "string", paramType = "path", defaultValue = "test_key"), @ApiImplicitParam(name = "value", value = "저장할 value 값", required = true, dataType = "string", paramType = "path", defaultValue = "test_value"), })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
-    @PostMapping(value = "/set/{key}/{value}")
-    public JSONObject set(@PathVariable String key, @PathVariable String value) {
-        JSONObject obj = new JSONObject();
+	@PostMapping(value = "/set/str/{key}/{value}")
+	public JSONObject setStr(@PathVariable String key, @PathVariable String value) {
+		JSONObject obj = new JSONObject();
 
-        try {
-            redisService.set(key, value);
-            obj.put("code", "100200");
-            obj.put("msg", "success");
-            obj.put("data", null);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            obj.put("code", "100104");
-            obj.put("msg", "fail set redis key");
-            obj.put("data", null);
-        }
-        return obj;
-    }
+		try {
+			redisService.set(key, value);
+			obj.put("code", "100200");
+			obj.put("msg", "success");
+			obj.put("data", null);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			obj.put("code", "100104");
+			obj.put("msg", "fail set redis key");
+			obj.put("data", null);
+		}
+		return obj;
+	}
 
 	@ApiOperation("redis에서 해당key의 value를 삭제한다.")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "key", value = "삭제할 key 값", required = true, dataType = "string", paramType = "path", defaultValue = "test_key"), 
-	})
+	@ApiImplicitParams({ @ApiImplicitParam(name = "key", value = "삭제할 key 값", required = true, dataType = "string", paramType = "path", defaultValue = "test_key"), })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
-    @DeleteMapping(value = "/del/{key}")
-    public JSONObject del(@PathVariable String key) {
-        JSONObject obj = new JSONObject();
+	@DeleteMapping(value = "/del/str/{key}")
+	public JSONObject delStr(@PathVariable String key) {
+		JSONObject obj = new JSONObject();
 
-        if (redisService.del(key)) {
-            obj.put("code", "100200");
-            obj.put("msg", "success");
-            obj.put("data", null);
-        } else {
-            obj.put("code", "100104");
-            obj.put("msg", "fail del redis key");
-            obj.put("data", null);
-        }
-        return obj;
-    }
+		if (redisService.del(key)) {
+			obj.put("code", "100200");
+			obj.put("msg", "success");
+			obj.put("data", null);
+		} else {
+			obj.put("code", "100104");
+			obj.put("msg", "fail del redis key");
+			obj.put("data", null);
+		}
+		return obj;
+	}
+
+	@ApiOperation("redis에서 해당key의 value를 리턴한다.")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "key", value = "조회할 key 값", required = true, dataType = "string", paramType = "path", defaultValue = "test_key"), })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
+	@GetMapping(value = "/get/obj/{key}")
+	public JSONObject getObj(@PathVariable String key) {
+		JSONObject obj = new JSONObject();
+
+		String result = redisService.get(key);
+		HumanInfo humanInfo = new Gson().fromJson(result, HumanInfo.class);
+
+		obj.put("code", "100200");
+		obj.put("msg", "success");
+		obj.put("data", humanInfo);
+		return obj;
+	}
+
+	@ApiOperation("redis에 key의 value를 저장한다.")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "key", value = "저장할 key 값", required = true, dataType = "string", paramType = "path", defaultValue = "test_key"), })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
+	@PostMapping(value = "/set/obj/{key}")
+	public JSONObject setObj(@PathVariable String key, @ApiParam(name = "param", value = "추가할 사용자 정보", required = true) @RequestBody HumanInfo param) {
+		JSONObject obj = new JSONObject();
+
+		Gson gson = new Gson();
+		String value = gson.toJson(param);
+
+		try {
+			redisService.set(key, value);
+			obj.put("code", "100200");
+			obj.put("msg", "success");
+			obj.put("data", null);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			obj.put("code", "100104");
+			obj.put("msg", "fail set redis key");
+			obj.put("data", null);
+		}
+		return obj;
+	}
+
+	@ApiOperation("redis에서 해당key의 value를 삭제한다.")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "key", value = "삭제할 key 값", required = true, dataType = "string", paramType = "path", defaultValue = "test_key"), })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
+	@DeleteMapping(value = "/del/obj/{key}")
+	public JSONObject delObj(@PathVariable String key) {
+		JSONObject obj = new JSONObject();
+
+		if (redisService.del(key)) {
+			obj.put("code", "100200");
+			obj.put("msg", "success");
+			obj.put("data", null);
+		} else {
+			obj.put("code", "100104");
+			obj.put("msg", "fail del redis key");
+			obj.put("data", null);
+		}
+		return obj;
+	}
 
 }
