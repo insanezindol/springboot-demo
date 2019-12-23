@@ -14,7 +14,7 @@ public class NoticeService {
 
 	@Autowired
 	private NoticeMapper noticeMapper;
-
+	
 	@Transactional(readOnly = true)
 	public List<NoticeInfo> getList() {
 		return noticeMapper.selectList();

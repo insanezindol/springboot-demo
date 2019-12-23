@@ -20,8 +20,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import kr.co.lunasoft.model.ResponseInfo;
 import kr.co.lunasoft.model.NoticeInfo;
+import kr.co.lunasoft.model.ResponseInfo;
 import kr.co.lunasoft.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
 
