@@ -1,11 +1,12 @@
 package kr.co.lunasoft.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,8 +28,8 @@ public class MainController {
 	}
 
 	@GetMapping(value = "/health-check")
-	public JSONObject healthCheck() {
-		JSONObject data = new JSONObject();
+	public Map<String, Object> healthCheck() {
+		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("code", "100200");
 		data.put("msg", "Success");
 		data.put("data", null);
@@ -36,7 +37,7 @@ public class MainController {
 	}
 	
 	@GetMapping(value = "/call-check")
-	public JSONObject callCheck() {
+	public Map<String, Object> callCheck() {
 		String serverUrl = "https://api.upbit.com/v1/orderbook";
 		
 		List<NameValuePair> parameters = new ArrayList<>();
@@ -48,7 +49,7 @@ public class MainController {
 		log.info(result1);
 		log.info(result2);
 		
-		JSONObject data = new JSONObject();
+		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("code", "100200");
 		data.put("msg", "Success");
 		data.put("data", null);

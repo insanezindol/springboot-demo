@@ -1,6 +1,8 @@
 package kr.co.lunasoft.controller;
 
-import org.json.simple.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,11 +35,11 @@ public class KafkaController {
 	})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
     @GetMapping(value = "/send/{topic}/{message}")
-    public JSONObject send(@PathVariable String topic, @PathVariable String message) {
+    public Map<String, Object> send(@PathVariable String topic, @PathVariable String message) {
     	
     	kafkaService.send(topic, message);
     	
-        JSONObject obj = new JSONObject();
+    	Map<String, Object> obj = new HashMap<String, Object>();
         obj.put("code", "100200");
         obj.put("msg", "success");
         obj.put("data", null);

@@ -1,8 +1,8 @@
 package kr.co.lunasoft.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,12 +44,12 @@ public class ElasticSearchController {
 		})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/{index}/{type}/{id}")
-	public JSONObject getResource(@PathVariable String index, @PathVariable String type, @PathVariable String id) {
+	public Map<String, Object> getResource(@PathVariable String index, @PathVariable String type, @PathVariable String id) {
 		String url = index + "/" + type + "/" + id;
 
 		Map<String, Object> result = elasticApi.callElasticApi("GET", url, null);
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", result);
@@ -63,12 +63,12 @@ public class ElasticSearchController {
 		})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PostMapping(value = "/user/{index}/{type}")
-	public JSONObject postUserInfoResource(@PathVariable String index, @PathVariable String type, @ApiParam(name = "userInfo", value = "추가할 사용자 정보", required = true) @RequestBody UserInfo userInfo) {
+	public Map<String, Object> postUserInfoResource(@PathVariable String index, @PathVariable String type, @ApiParam(name = "userInfo", value = "추가할 사용자 정보", required = true) @RequestBody UserInfo userInfo) {
 		String url = index + "/" + type;
 		userInfo.setRequestTime(DateUtil.getNowDatetime());
 		Map<String, Object> result = elasticApi.callElasticApi("POST", url, userInfo);
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", result);
@@ -82,12 +82,12 @@ public class ElasticSearchController {
 		})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PostMapping(value = "/dept/{index}/{type}")
-	public JSONObject postDeptInfoResource(@PathVariable String index, @PathVariable String type, @ApiParam(name = "deptInfo", value = "추가할 부서 정보", required = true) @RequestBody DeptInfo deptInfo) {
+	public Map<String, Object> postDeptInfoResource(@PathVariable String index, @PathVariable String type, @ApiParam(name = "deptInfo", value = "추가할 부서 정보", required = true) @RequestBody DeptInfo deptInfo) {
 		String url = index + "/" + type;
 		deptInfo.setRequestTime(DateUtil.getNowDatetime());
 		Map<String, Object> result = elasticApi.callElasticApi("POST", url, deptInfo);
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", result);
@@ -102,12 +102,12 @@ public class ElasticSearchController {
 		})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PutMapping(value = "/user/{index}/{type}/{id}")
-	public JSONObject putResource(@PathVariable String index, @PathVariable String type, @PathVariable String id, @ApiParam(name = "userInfo", value = "추가할 사용자 정보", required = true) @RequestBody UserInfo userInfo) {
+	public Map<String, Object> putResource(@PathVariable String index, @PathVariable String type, @PathVariable String id, @ApiParam(name = "userInfo", value = "추가할 사용자 정보", required = true) @RequestBody UserInfo userInfo) {
 		String url = index + "/" + type + "/" + id;
 		userInfo.setRequestTime(DateUtil.getNowDatetime());
 		Map<String, Object> result = elasticApi.callElasticApi("PUT", url, userInfo);
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", result);
@@ -122,12 +122,12 @@ public class ElasticSearchController {
 		})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@DeleteMapping(value = "/{index}/{type}/{id}")
-	public JSONObject deleteResource(@PathVariable String index, @PathVariable String type, @PathVariable String id) {
+	public Map<String, Object> deleteResource(@PathVariable String index, @PathVariable String type, @PathVariable String id) {
 		String url = index + "/" + type + "/" + id;
 
 		Map<String, Object> result = elasticApi.callElasticApi("DELETE", url, null);
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", result);

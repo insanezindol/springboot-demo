@@ -1,8 +1,9 @@
 package kr.co.lunasoft.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,10 +38,10 @@ public class NoticeController {
 	@ApiOperation("MySQL에서 notice table의 모든 데이터를 리턴한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/resource")
-	public JSONObject list() {
+	public Map<String, Object> list() {
 		List<NoticeInfo> list = noticeService.getList();
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", list);
@@ -53,12 +54,12 @@ public class NoticeController {
 	})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/resource/{id}")
-	public JSONObject get(@PathVariable String id) {
+	public Map<String, Object> get(@PathVariable String id) {
 		NoticeInfo param = new NoticeInfo();
 		param.setId(id);
 		NoticeInfo info = noticeService.getOne(param);
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		if (info == null) {
 			obj.put("code", "100103");
 			obj.put("msg", "object not exist");
@@ -74,33 +75,33 @@ public class NoticeController {
 	@ApiOperation("MySQL에서 notice table에 데이터를 저장한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PostMapping(value = "/resource")
-	public JSONObject add(@ApiParam(name = "param", value = "추가할 정보", required = true) @RequestBody NoticeInfo param) {
+	public Map<String, Object> add(@ApiParam(name = "param", value = "추가할 정보", required = true) @RequestBody NoticeInfo param) {
 		int resultCnt = noticeService.addNotice(param);
-		JSONObject output = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		if (resultCnt == 1) {
-			output.put("code", "100200");
-			output.put("msg", "success");
+			obj.put("code", "100200");
+			obj.put("msg", "success");
 		} else {
-			output.put("code", "100103");
-			output.put("msg", "error");
+			obj.put("code", "100103");
+			obj.put("msg", "error");
 		}
-		return output;
+		return obj;
 	}
 
 	@ApiOperation("MySQL에서 notice table의 데이터를 수정한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PutMapping(value = "/resource")
-	public JSONObject modify(@ApiParam(name = "param", value = "수정할 정보", required = true) @RequestBody NoticeInfo param) {
+	public Map<String, Object> modify(@ApiParam(name = "param", value = "수정할 정보", required = true) @RequestBody NoticeInfo param) {
 		int resultCnt = noticeService.modifyNotice(param);
-		JSONObject output = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		if (resultCnt == 1) {
-			output.put("code", "100200");
-			output.put("msg", "success");
+			obj.put("code", "100200");
+			obj.put("msg", "success");
 		} else {
-			output.put("code", "100103");
-			output.put("msg", "error");
+			obj.put("code", "100103");
+			obj.put("msg", "error");
 		}
-		return output;
+		return obj;
 	}
 
 	@ApiOperation("MySQL에서 notice table의 데이터를 삭제한다.")
@@ -109,20 +110,20 @@ public class NoticeController {
 	})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@DeleteMapping(value = "/resource/{id}")
-	public JSONObject delete(@PathVariable String id) {
+	public Map<String, Object> delete(@PathVariable String id) {
 		NoticeInfo param = new NoticeInfo();
 		param.setId(id);
 		int resultCnt = noticeService.removeNotice(param);
 
-		JSONObject output = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		if (resultCnt == 1) {
-			output.put("code", "100200");
-			output.put("msg", "success");
+			obj.put("code", "100200");
+			obj.put("msg", "success");
 		} else {
-			output.put("code", "100103");
-			output.put("msg", "error");
+			obj.put("code", "100103");
+			obj.put("msg", "error");
 		}
-		return output;
+		return obj;
 	}
 
 }

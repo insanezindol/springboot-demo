@@ -1,8 +1,9 @@
 package kr.co.lunasoft.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,10 +38,10 @@ public class MongoController {
 	@ApiOperation("MongoDB에서 user Collection의 모든 데이터를 리턴한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/resource")
-	public JSONObject list() {
+	public Map<String, Object> list() {
 		List<HumanInfo> list = mongoService.getList();
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", list);
@@ -51,10 +52,10 @@ public class MongoController {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "name", value = "조회할 name 값", required = true, dataType = "string", paramType = "path", defaultValue = "jhlee"), })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/resource/{name}")
-	public JSONObject get(@PathVariable String name) {
+	public Map<String, Object> get(@PathVariable String name) {
 		HumanInfo info = mongoService.getOne(name);
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", info);
@@ -64,38 +65,38 @@ public class MongoController {
 	@ApiOperation("MongoDB에서 user Collection의 값을 추가한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PostMapping(value = "/resource")
-	public JSONObject save(@ApiParam(name = "param", value = "추가할 사용자 정보", required = true) @RequestBody HumanInfo param) {
+	public Map<String, Object> save(@ApiParam(name = "param", value = "추가할 사용자 정보", required = true) @RequestBody HumanInfo param) {
 		mongoService.add(param);
 
-		JSONObject output = new JSONObject();
-		output.put("code", "100200");
-		output.put("msg", "success");
-		return output;
+		Map<String, Object> obj = new HashMap<String, Object>();
+		obj.put("code", "100200");
+		obj.put("msg", "success");
+		return obj;
 	}
 
 	@ApiOperation("MongoDB에서 user Collection의 id 값을 기준으로 수정한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PutMapping(value = "/resource")
-	public JSONObject modify(@ApiParam(name = "param", value = "수정할 사용자 정보", required = true) @RequestBody HumanInfo param) {
+	public Map<String, Object> modify(@ApiParam(name = "param", value = "수정할 사용자 정보", required = true) @RequestBody HumanInfo param) {
 		mongoService.modify(param);
 
-		JSONObject output = new JSONObject();
-		output.put("code", "100200");
-		output.put("msg", "success");
-		return output;
+		Map<String, Object> obj = new HashMap<String, Object>();
+		obj.put("code", "100200");
+		obj.put("msg", "success");
+		return obj;
 	}
 
 	@ApiOperation("MongoDB에서 user Collection의 id 값을 기준으로 삭제한다.")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "삭제할 id 값", required = true, dataType = "string", paramType = "path", defaultValue = "1"), })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@DeleteMapping(value = "/resource/{id}")
-	public JSONObject delete(@PathVariable String id) {
+	public Map<String, Object> delete(@PathVariable String id) {
 		mongoService.delete(id);
 
-		JSONObject output = new JSONObject();
-		output.put("code", "100200");
-		output.put("msg", "success");
-		return output;
+		Map<String, Object> obj = new HashMap<String, Object>();
+		obj.put("code", "100200");
+		obj.put("msg", "success");
+		return obj;
 	}
 
 }

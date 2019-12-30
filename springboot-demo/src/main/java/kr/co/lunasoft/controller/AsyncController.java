@@ -1,12 +1,13 @@
 package kr.co.lunasoft.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import org.json.simple.JSONObject;
 import org.springframework.context.annotation.Description;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,7 @@ public class AsyncController {
 	@ApiOperation("비동기 작업을 호출하고 Callback 함수에서 후속작업을 진행한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/test1")
-	public JSONObject test1() {
+	public Map<String, Object> test1() {
 		// thenApply : 후속작업에 결과값 return 가능
 		// thenAccept : 후속작업에 결과값 return 불가능
 		log.info("test1 async start");
@@ -37,7 +38,7 @@ public class AsyncController {
 				.thenAccept(finalResult -> printMessage("[thenAccept] " + finalResult));
 		log.info("test1 async end");
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", null);
@@ -47,7 +48,7 @@ public class AsyncController {
 	@ApiOperation("동시에 3개의 요청을 호출하고 개별로 진행한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/test2")
-	public JSONObject test2() {
+	public Map<String, Object> test2() {
 
 		// create new async task
 		log.info("async start");
@@ -56,7 +57,7 @@ public class AsyncController {
 		CompletableFuture.supplyAsync(() -> this.buildMessage(4)).thenApply(finalResult -> printMessage("[thenApply] " + finalResult));
 		log.info("async end");
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", null);
@@ -66,7 +67,7 @@ public class AsyncController {
 	@ApiOperation("동시에 3개의 요청을 호출하고 모든 호출이 완성되면 진행한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/test3")
-	public JSONObject test3() {
+	public Map<String, Object> test3() {
 
 		// create new async task
 		log.info("async start");
@@ -82,7 +83,7 @@ public class AsyncController {
 				.thenApplyAsync(result -> completableFutures.stream().map(future -> future.join()).collect(Collectors.toList()))
 				.thenAcceptAsync(messages -> messages.forEach(message -> log.info(message)));
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", null);
@@ -92,7 +93,7 @@ public class AsyncController {
 	@ApiOperation("동시에 3개의 요청을 호출하고 하나라도 호출이 완성되면 진행한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/test4")
-	public JSONObject test4() {
+	public Map<String, Object> test4() {
 
 		// create new async task
 		log.info("async start");
@@ -107,7 +108,7 @@ public class AsyncController {
 		CompletableFuture.anyOf(completableFutures.toArray(new CompletableFuture[3]))
 				.thenAcceptAsync(result -> this.printMessage(result.toString()));
 		
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", null);

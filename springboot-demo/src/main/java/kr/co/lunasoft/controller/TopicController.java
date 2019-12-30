@@ -1,9 +1,10 @@
 package kr.co.lunasoft.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,13 +55,13 @@ public class TopicController {
 	})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/resource/{pageNo}")
-	public JSONObject list(@PathVariable int pageNo) {
+	public Map<String, Object> list(@PathVariable int pageNo) {
 		Sort sort = Sort.by(Sort.Direction.DESC, "id");
 		
 		//List<TopicInfo> list = topicInfoRepository.findAll(sort);
 		Page<TopicInfo> list = topicInfoRepository.findAll(PageRequest.of(pageNo-1, 10, sort));
 
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", list);
@@ -73,12 +74,12 @@ public class TopicController {
 	})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/resource/title/{title}")
-	public JSONObject getTitle(@PathVariable String title) {
+	public Map<String, Object> getTitle(@PathVariable String title) {
 		Sort sort = Sort.by(Sort.Direction.ASC, "id");
 		
 		List<TopicInfo> list = topicInfoRepository.findAllByTitleLike("%"+title+"%", sort);
 		
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		obj.put("data", list);
@@ -91,10 +92,10 @@ public class TopicController {
 	})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/resource/id/{id}")
-	public JSONObject getId(@PathVariable long id) {
+	public Map<String, Object> getId(@PathVariable long id) {
 		Optional<TopicInfo> optionalPost = topicInfoRepository.findById(id);
 		
-		JSONObject obj = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		TopicInfo info = null;
@@ -108,32 +109,32 @@ public class TopicController {
 	@ApiOperation("MySQL에서 topic table에 데이터를 저장한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PostMapping(value = "/resource")
-	public JSONObject add(@ApiParam(name = "param", value = "추가할 정보", required = true) @RequestBody TopicInfo param) {
+	public Map<String, Object> add(@ApiParam(name = "param", value = "추가할 정보", required = true) @RequestBody TopicInfo param) {
 		topicInfoRepository.save(param);
 		
-		JSONObject output = new JSONObject();
-		output.put("code", "100200");
-		output.put("msg", "success");
-		output.put("data", null);
-		return output;
+		Map<String, Object> obj = new HashMap<String, Object>();
+		obj.put("code", "100200");
+		obj.put("msg", "success");
+		obj.put("data", null);
+		return obj;
 	}
 	
 	@ApiOperation("MySQL에서 topic table의 데이터를 수정한다.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@PutMapping(value = "/resource")
-	public JSONObject modify(@ApiParam(name = "param", value = "수정할 정보", required = true) @RequestBody TopicInfo param) {
+	public Map<String, Object> modify(@ApiParam(name = "param", value = "수정할 정보", required = true) @RequestBody TopicInfo param) {
 		int resultCnt = topicInfoRepository.updateTopicById(param);
-		JSONObject output = new JSONObject();
+		Map<String, Object> obj = new HashMap<String, Object>();
 		if (resultCnt > 0) {
-			output.put("code", "100200");
-			output.put("msg", "success");
-			output.put("data", null);
+			obj.put("code", "100200");
+			obj.put("msg", "success");
+			obj.put("data", null);
 		} else {
-			output.put("code", "100103");
-			output.put("msg", "error");
-			output.put("data", null);
+			obj.put("code", "100103");
+			obj.put("msg", "error");
+			obj.put("data", null);
 		}
-		return output;
+		return obj;
 	}
 	
 	@ApiOperation("MySQL에서 topic table의 데이터를 삭제한다.")
@@ -142,15 +143,15 @@ public class TopicController {
 	})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@DeleteMapping(value = "/resource/{id}")
-	public JSONObject delete(@PathVariable Long id) {
+	public Map<String, Object> delete(@PathVariable Long id) {
 		topicInfoRepository.deleteById(id);
 
-		JSONObject output = new JSONObject();
-		output.put("code", "100200");
-		output.put("msg", "success");
-		output.put("data", null);
+		Map<String, Object> obj = new HashMap<String, Object>();
+		obj.put("code", "100200");
+		obj.put("msg", "success");
+		obj.put("data", null);
 		
-		return output;
+		return obj;
 	}
 	
 	@ApiOperation("MySQL에서 dept table의 모든 데이터를 리턴한다.")
@@ -159,8 +160,8 @@ public class TopicController {
 	})
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
 	@GetMapping(value = "/join/{type}")
-	public JSONObject join(@PathVariable int type) {
-		JSONObject obj = new JSONObject();
+	public Map<String, Object> join(@PathVariable int type) {
+		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
 		
