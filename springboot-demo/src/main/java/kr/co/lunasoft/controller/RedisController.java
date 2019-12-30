@@ -59,13 +59,13 @@ public class RedisController {
 			redisService.set(key, value);
 			obj.put("code", "100200");
 			obj.put("msg", "success");
-			obj.put("data", null);
+			obj.put("data", "");
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
 			obj.put("code", "100104");
 			obj.put("msg", "fail set redis key");
-			obj.put("data", null);
+			obj.put("data", "");
 		}
 		return obj;
 	}
@@ -80,11 +80,11 @@ public class RedisController {
 		if (redisService.del(key)) {
 			obj.put("code", "100200");
 			obj.put("msg", "success");
-			obj.put("data", null);
+			obj.put("data", "");
 		} else {
 			obj.put("code", "100104");
 			obj.put("msg", "fail del redis key");
-			obj.put("data", null);
+			obj.put("data", "");
 		}
 		return obj;
 	}
@@ -119,12 +119,12 @@ public class RedisController {
 			redisService.set(key, value);
 			obj.put("code", "100200");
 			obj.put("msg", "success");
-			obj.put("data", null);
+			obj.put("data", "");
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			obj.put("code", "100104");
 			obj.put("msg", "fail set redis key");
-			obj.put("data", null);
+			obj.put("data", "");
 		}
 		return obj;
 	}
@@ -139,11 +139,11 @@ public class RedisController {
 		if (redisService.del(key)) {
 			obj.put("code", "100200");
 			obj.put("msg", "success");
-			obj.put("data", null);
+			obj.put("data", "");
 		} else {
 			obj.put("code", "100104");
 			obj.put("msg", "fail del redis key");
-			obj.put("data", null);
+			obj.put("data", "");
 		}
 		return obj;
 	}

@@ -42,7 +42,7 @@ public class KafkaController {
     	Map<String, Object> obj = new HashMap<String, Object>();
         obj.put("code", "100200");
         obj.put("msg", "success");
-        obj.put("data", null);
+        obj.put("data", "");
         return obj;
     }
 

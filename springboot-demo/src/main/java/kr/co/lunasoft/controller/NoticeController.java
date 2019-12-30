@@ -63,7 +63,7 @@ public class NoticeController {
 		if (info == null) {
 			obj.put("code", "100103");
 			obj.put("msg", "object not exist");
-			obj.put("data", null);
+			obj.put("data", "");
 		} else {
 			obj.put("code", "100200");
 			obj.put("msg", "success");

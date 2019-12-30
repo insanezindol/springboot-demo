@@ -41,7 +41,7 @@ public class HystrixController {
 		Map<String, Object> obj = new HashMap<String, Object>();
         obj.put("code", "100200");
         obj.put("msg", "success");
-        obj.put("data", null);
+        obj.put("data", "");
         return obj;
     }
 	
@@ -50,7 +50,7 @@ public class HystrixController {
 		Map<String, Object> obj = new HashMap<String, Object>();
         obj.put("code", "300200");
         obj.put("msg", "fallback error");
-        obj.put("data", null);
+        obj.put("data", "");
         return obj;
 	}
 

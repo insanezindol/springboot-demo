@@ -32,7 +32,7 @@ public class MainController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("code", "100200");
 		data.put("msg", "Success");
-		data.put("data", null);
+		data.put("data", "");
 		return data;
 	}
 	
@@ -52,7 +52,7 @@ public class MainController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("code", "100200");
 		data.put("msg", "Success");
-		data.put("data", null);
+		data.put("data", "");
 		return data;
 	}
 

@@ -115,7 +115,7 @@ public class TopicController {
 		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
-		obj.put("data", null);
+		obj.put("data", "");
 		return obj;
 	}
 	
@@ -128,11 +128,11 @@ public class TopicController {
 		if (resultCnt > 0) {
 			obj.put("code", "100200");
 			obj.put("msg", "success");
-			obj.put("data", null);
+			obj.put("data", "");
 		} else {
 			obj.put("code", "100103");
 			obj.put("msg", "error");
-			obj.put("data", null);
+			obj.put("data", "");
 		}
 		return obj;
 	}
@@ -149,7 +149,7 @@ public class TopicController {
 		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("code", "100200");
 		obj.put("msg", "success");
-		obj.put("data", null);
+		obj.put("data", "");
 		
 		return obj;
 	}
