@@ -18,7 +18,7 @@ logging:
             URLConfigurationSource: ERROR
 
 elasticsearch:
-  host: docker_host
+  host: ubuntu-server
   port: 9200
   
 # local 환경
@@ -40,7 +40,7 @@ spring:
 # 123456
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://docker_host:3306/appdb?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:log4jdbc:mysql://ubuntu-server:3306/appdb?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: ENC(TjWinjUKrOPY/tBd3lKezQ==)
     password: ENC(69KbjnpfEVS9QUov4JTBEA==)
     tomcat:
@@ -51,17 +51,17 @@ spring:
 # 1234
   data:
     mongodb:
-      uri: mongodb://docker_host:27017
+      uri: mongodb://ubuntu-server:27017
       database: ENC(zZt+JED9H2PdIsylssNlgg==)
       username: ENC(ysvKN/6VkZjVAmyIvv5M7g==)
       password: ENC(d+LnXyw+5EIGoyle383u5A==)
   redis:
-    host: docker_host
+    host: ubuntu-server
     port: 6379
   kafka:
     consumer:
       group-id: springboot-demo
-    bootstrap-servers: docker_host:9092
+    bootstrap-servers: ubuntu-server:9092
   main:
     allow-bean-definition-overriding: true
 
@@ -102,7 +102,7 @@ spring:
 # 123456
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://docker_host:3306/appdb?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:log4jdbc:mysql://ubuntu-server:3306/appdb?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: ENC(TjWinjUKrOPY/tBd3lKezQ==)
     password: ENC(69KbjnpfEVS9QUov4JTBEA==)
     tomcat:
@@ -113,17 +113,17 @@ spring:
 # 1234
   data:
     mongodb:
-      uri: mongodb://docker_host:27017
+      uri: mongodb://ubuntu-server:27017
       database: ENC(zZt+JED9H2PdIsylssNlgg==)
       username: ENC(ysvKN/6VkZjVAmyIvv5M7g==)
       password: ENC(d+LnXyw+5EIGoyle383u5A==)
   redis:
-    host: docker_host
+    host: ubuntu-server
     port: 6379
   kafka:
     consumer:
       group-id: springboot-demo
-    bootstrap-servers: docker_host:9092
+    bootstrap-servers: ubuntu-server:9092
   main:
     allow-bean-definition-overriding: true
 
