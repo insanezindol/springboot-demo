@@ -9,17 +9,12 @@ jasypt:
   encryptor:
     bean: jasyptStringEncrptor
 
+# 로그 레벨
 logging:
   level:
-    com:
-      netflix:
-        config:
-          sources:
-            URLConfigurationSource: ERROR
-    org: 
-      apache: 
-        kafka: 
-          clients: ERROR
+    com.netflix.config: ERROR
+    org.apache.kafka.config: ERROR
+    io.swagger.models.parameters.AbstractSerializableParameter: ERROR
 
 elasticsearch:
   host: ubuntu-server
