@@ -16,6 +16,10 @@ logging:
         config:
           sources:
             URLConfigurationSource: ERROR
+    org: 
+      apache: 
+        kafka: 
+          clients: ERROR
 
 elasticsearch:
   host: ubuntu-server
