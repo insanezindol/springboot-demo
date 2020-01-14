@@ -11,14 +11,26 @@ jasypt:
 
 # 로그 레벨
 logging:
+  pattern:    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%t]){faint} %clr(%logger){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
   level:
+    org.springframework.jdbc: INFO
+    org.mybatis.spring: INFO
+    jdbc.sqlonly: OFF
+    jdbc.sqltiming: INFO
+    jdbc.audit: OFF
+    jdbc.resultset: OFF
+    jdbc.resultsettable: INFO
+    jdbc.connection: OFF
     com.netflix.config: ERROR
-    org.apache.kafka.config: ERROR
+    org.apache.kafka: ERROR
+    org.springframework.kafka: ERROR
     io.swagger.models.parameters.AbstractSerializableParameter: ERROR
 
 elasticsearch:
   host: ubuntu-server
   port: 9200
+
+management:  endpoints:    web:      exposure:        include: "*"
   
 # local 환경
 ---    
