@@ -3,7 +3,6 @@ spring:
   profiles:
     active: real 
 
-
 # 공통 환경
 ---
 jasypt:
