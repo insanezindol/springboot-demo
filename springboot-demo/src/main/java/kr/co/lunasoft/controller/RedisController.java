@@ -148,4 +148,18 @@ public class RedisController {
 		return obj;
 	}
 
+	@ApiOperation("redis에서 모든 값을 리턴한다.")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
+	@GetMapping(value = "/getAll")
+	public Map<String, Object> getAll() {
+		Map<String, Object> obj = new HashMap<String, Object>();
+
+		Map<String, Object> data = redisService.getAll();
+
+		obj.put("code", "100200");
+		obj.put("msg", "success");
+		obj.put("data", data);
+		return obj;
+	}
+
 }

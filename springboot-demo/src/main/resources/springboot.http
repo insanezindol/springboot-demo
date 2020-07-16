@@ -1,0 +1,35 @@
+### NoticeController
+### MySQL에서 notice table의 모든 데이터를 리턴한다.
+GET http://localhost:8080/notice/resource
+Accept: */*
+
+### MySQL에서 notice table의 특정 데이터를 리턴한다.
+GET http://localhost:8080/notice/resource/{{get_id}}
+Accept: */*
+
+### MySQL에서 notice table에 데이터를 저장한다.
+POST http://localhost:8080/notice/resource
+Accept: */*
+Content-Type: application/json
+
+{
+  "title" : "{{ins_title}}",
+  "contents" : "{{ins_contents}}",
+  "status" : "{{ins_status}}",
+  "regUser" : "{{ins_regUser}}"
+}
+
+### MySQL에서 notice table의 데이터를 수정한다.
+PUT http://localhost:8080/notice/resource
+Accept: */*
+Content-Type: application/json
+
+{
+  "title" : "{{upd_title}}",
+  "contents" : "{{upd_contents}}",
+  "id" : "{{upd_id}}"
+}
+
+### MySQL에서 notice table의 데이터를 수정한다.
+DELETE http://localhost:8080/notice/resource/{{del_id}}
+Accept: */*
