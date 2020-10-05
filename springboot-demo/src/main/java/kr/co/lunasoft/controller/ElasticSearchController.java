@@ -1,137 +1,102 @@
 package kr.co.lunasoft.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import kr.co.lunasoft.model.DeptInfo;
+import io.swagger.annotations.*;
+import kr.co.lunasoft.elasticsearch.UserDocument;
+import kr.co.lunasoft.elasticsearch.UserDocumentRepository;
 import kr.co.lunasoft.model.ResponseInfo;
-import kr.co.lunasoft.model.UserInfo;
-import kr.co.lunasoft.util.DateUtil;
-import kr.co.lunasoft.util.ElasticApi;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/es")
 @Slf4j
-@Api(tags = { "9. ElasticSearch" })
+@Api(tags = {"9. ElasticSearch"})
 public class ElasticSearchController {
 
-	@Autowired
-	ElasticApi elasticApi;
+    @Resource
+    UserDocumentRepository userDocumentRepository;
 
-	@ApiOperation("ElasticSearch GET - 조회")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "index", value = "조회할 index 값", required = true, dataType = "string", paramType = "path", defaultValue = "lunasoft"), 
-		@ApiImplicitParam(name = "type", value = "조회할 type 값", required = true, dataType = "string", paramType = "path", defaultValue = "dean"), 
-		@ApiImplicitParam(name = "id", value = "조회할 id 값", required = true, dataType = "string", paramType = "path", defaultValue = "1"), 
-		})
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
-	@GetMapping(value = "/{index}/{type}/{id}")
-	public Map<String, Object> getResource(@PathVariable String index, @PathVariable String type, @PathVariable String id) {
-		String url = index + "/" + type + "/" + id;
+    @ApiOperation("elasticsearch GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "string", paramType = "query", defaultValue = "dean"),
+    })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = ResponseInfo.class)})
+    @GetMapping(value = "/resource")
+    public Map<String, Object> get(@RequestParam String searchType, @RequestParam String searchText) {
+        Object result = null;
 
-		Map<String, Object> result = elasticApi.callElasticApi("GET", url, null);
+        if (searchType.equals("id")) {
+            Optional<UserDocument> optional = userDocumentRepository.findById(searchText);
+            if (optional.isPresent()) {
+                UserDocument userDocument = optional.get();
+                result = userDocument;
+            }
+        } else if (searchType.equals("name")) {
+            List<UserDocument> list = userDocumentRepository.findByName(searchText);
+            result = list;
+        } else if (searchType.equals("age")) {
+            List<UserDocument> list = userDocumentRepository.findByAge(Integer.parseInt(searchText));
+            result = list;
+        }
 
-		Map<String, Object> obj = new HashMap<String, Object>();
-		obj.put("code", "100200");
-		obj.put("msg", "success");
-		obj.put("data", result);
-		return obj;
-	}
+        Map<String, Object> obj = new HashMap<String, Object>();
+        obj.put("code", "100200");
+        obj.put("msg", "success");
+        obj.put("data", result);
+        return obj;
+    }
 
-	@ApiOperation("ElasticSearch POST - key 없이 사용자 정보 전송 (insert)")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "index", value = "조회할 index 값", required = true, dataType = "string", paramType = "path", defaultValue = "lunasoft"), 
-		@ApiImplicitParam(name = "type", value = "조회할 type 값", required = true, dataType = "string", paramType = "path", defaultValue = "dean"), 
-		})
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
-	@PostMapping(value = "/user/{index}/{type}")
-	public Map<String, Object> postUserInfoResource(@PathVariable String index, @PathVariable String type, @ApiParam(name = "userInfo", value = "추가할 사용자 정보", required = true) @RequestBody UserInfo userInfo) {
-		String url = index + "/" + type;
-		userInfo.setRequestTime(DateUtil.getNowDatetime());
-		Map<String, Object> result = elasticApi.callElasticApi("POST", url, userInfo);
+    @ApiOperation("elasticsearch UPSERT")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "string", paramType = "query", defaultValue = "dean"),
+            @ApiImplicitParam(name = "name", value = "이름", required = true, dataType = "string", paramType = "query", defaultValue = "이진형"),
+            @ApiImplicitParam(name = "age", value = "나이", required = true, dataType = "int", paramType = "query", defaultValue = "30"),
+    })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = ResponseInfo.class)})
+    @PostMapping(value = "/resource")
+    public Map<String, Object> post(@RequestParam String id, @RequestParam String name, @RequestParam int age) {
+        Map<String, Object> map = new Hashtable<>();
+        map.put("id", id);
+        map.put("name", name);
+        map.put("age", age);
 
-		Map<String, Object> obj = new HashMap<String, Object>();
-		obj.put("code", "100200");
-		obj.put("msg", "success");
-		obj.put("data", result);
-		return obj;
-	}
-	
-	@ApiOperation("ElasticSearch POST - key 없이 부서 정보 전송 (insert)")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "index", value = "조회할 index 값", required = true, dataType = "string", paramType = "path", defaultValue = "lunasoft-sub1"), 
-		@ApiImplicitParam(name = "type", value = "조회할 type 값", required = true, dataType = "string", paramType = "path", defaultValue = "dept"), 
-		})
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
-	@PostMapping(value = "/dept/{index}/{type}")
-	public Map<String, Object> postDeptInfoResource(@PathVariable String index, @PathVariable String type, @ApiParam(name = "deptInfo", value = "추가할 부서 정보", required = true) @RequestBody DeptInfo deptInfo) {
-		String url = index + "/" + type;
-		deptInfo.setRequestTime(DateUtil.getNowDatetime());
-		Map<String, Object> result = elasticApi.callElasticApi("POST", url, deptInfo);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        UserDocument userDocument = new UserDocument();
+        userDocument.setId(id);
+        userDocument.setName(name);
+        userDocument.setAge(age);
+        userDocument.setLogDate(sdf.format(new Date()));
+        userDocument.setLogText(map.toString());
 
-		Map<String, Object> obj = new HashMap<String, Object>();
-		obj.put("code", "100200");
-		obj.put("msg", "success");
-		obj.put("data", result);
-		return obj;
-	}
+        UserDocument result = userDocumentRepository.save(userDocument);
 
-	@ApiOperation("ElasticSearch PUT - key 함께 사용자 정보 전송 (upsert)")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "index", value = "조회할 index 값", required = true, dataType = "string", paramType = "path", defaultValue = "lunasoft"), 
-		@ApiImplicitParam(name = "type", value = "조회할 type 값", required = true, dataType = "string", paramType = "path", defaultValue = "dean"), 
-		@ApiImplicitParam(name = "id", value = "조회할 id 값", required = true, dataType = "string", paramType = "path", defaultValue = "1"), 
-		})
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
-	@PutMapping(value = "/user/{index}/{type}/{id}")
-	public Map<String, Object> putResource(@PathVariable String index, @PathVariable String type, @PathVariable String id, @ApiParam(name = "userInfo", value = "추가할 사용자 정보", required = true) @RequestBody UserInfo userInfo) {
-		String url = index + "/" + type + "/" + id;
-		userInfo.setRequestTime(DateUtil.getNowDatetime());
-		Map<String, Object> result = elasticApi.callElasticApi("PUT", url, userInfo);
+        Map<String, Object> obj = new HashMap<String, Object>();
+        obj.put("code", "100200");
+        obj.put("msg", "success");
+        obj.put("data", result);
+        return obj;
+    }
 
-		Map<String, Object> obj = new HashMap<String, Object>();
-		obj.put("code", "100200");
-		obj.put("msg", "success");
-		obj.put("data", result);
-		return obj;
-	}
+    @ApiOperation("elasticsearch DELETE")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "string", paramType = "query", defaultValue = "dean"),
+    })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = ResponseInfo.class)})
+    @DeleteMapping(value = "/resource")
+    public Map<String, Object> delete(@RequestParam String id) {
+        UserDocument userDocument = new UserDocument();
+        userDocument.setId(id);
+        userDocumentRepository.delete(userDocument);
 
-	@ApiOperation("ElasticSearch DELETE - index, type, id로 해당 정보 삭제")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "index", value = "조회할 index 값", required = true, dataType = "string", paramType = "path", defaultValue = "lunasoft"), 
-		@ApiImplicitParam(name = "type", value = "조회할 type 값", required = true, dataType = "string", paramType = "path", defaultValue = "dean"), 
-		@ApiImplicitParam(name = "id", value = "조회할 id 값", required = true, dataType = "string", paramType = "path", defaultValue = "1"), 
-		})
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseInfo.class) })
-	@DeleteMapping(value = "/{index}/{type}/{id}")
-	public Map<String, Object> deleteResource(@PathVariable String index, @PathVariable String type, @PathVariable String id) {
-		String url = index + "/" + type + "/" + id;
-
-		Map<String, Object> result = elasticApi.callElasticApi("DELETE", url, null);
-
-		Map<String, Object> obj = new HashMap<String, Object>();
-		obj.put("code", "100200");
-		obj.put("msg", "success");
-		obj.put("data", result);
-		return obj;
-	}
+        Map<String, Object> obj = new HashMap<String, Object>();
+        obj.put("code", "100200");
+        obj.put("msg", "success");
+        obj.put("data", null);
+        return obj;
+    }
 
 }
