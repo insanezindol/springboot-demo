@@ -3,7 +3,6 @@
 <mapper namespace="kr.co.lunasoft.mapper.StatisticsMapper">
 
     <select id="getStat1" resultType="StatisticsInfo">
-        <![CDATA[
         SELECT
             s1.*
         FROM
@@ -19,24 +18,22 @@
                      LEFT OUTER JOIN
                  (SELECT mall_id, count(1) as register_cnt
                   FROM db_product_link_service.tb_mall_smartstore_product_info
-                  WHERE date_format(product_register_date,'%Y%m%d') >= #{startDate}
-                    AND date_format(product_register_date,'%Y%m%d') <= #{endDate}
+                  WHERE date_format(product_register_date,'%Y%m%d') <![CDATA[ >= ]]> #{startDate}
+                    AND date_format(product_register_date,'%Y%m%d') <![CDATA[ <= ]]> #{endDate}
                   GROUP BY mall_id) t2
                  ON t1.mall_id = t2.mall_id
                      LEFT OUTER JOIN
                  (SELECT mall_id, count(1) as modify_cnt
                   FROM db_product_link_service.tb_mall_smartstore_product_info
-                  WHERE date_format(product_modify_date,'%Y%m%d') >= #{startDate}
-                    AND date_format(product_modify_date,'%Y%m%d') <= #{endDate}
+                  WHERE date_format(product_modify_date,'%Y%m%d') <![CDATA[ >= ]]> #{startDate}
+                    AND date_format(product_modify_date,'%Y%m%d') <![CDATA[ <= ]]> #{endDate}
                   GROUP BY mall_id) t3
                  ON t1.mall_id = t3.mall_id) s1
         WHERE s1.total_cnt != 0
         ORDER BY s1.total_cnt DESC
-        ]]>
     </select>
 
     <select id="getStat2" resultType="StatisticsInfo">
-        <![CDATA[
         SELECT
             s1.*
         FROM
@@ -63,7 +60,176 @@
                  ON t1.mall_id = t3.mall_id) s1
         WHERE s1.total_cnt != 0
         ORDER BY s1.total_cnt DESC
-        ]]>
+    </select>
+
+    <select id="getProductInfoList" resultType="ProductInfo">
+        SELECT
+            mall_id,
+            product_no,
+            smartstore_product_no,
+            smartstore_product_custom_code,
+            product_name,
+            product_supply_name,
+            product_eng_name,
+            product_code,
+            product_custom_code,
+            model_name,
+            product_price,
+            product_retail_price,
+            product_supply_price,
+            product_category_no,
+            display_yn,
+            sell_yn,
+            del_yn,
+            product_stat_code,
+            product_use_month_count,
+            product_tag_text,
+            margin_rate,
+            tax_code,
+            tax_rate,
+            price_alter_text,
+            buy_limit_code,
+            buy_unit_code,
+            buy_unit_count,
+            order_limit_code,
+            order_min_count,
+            order_max_count,
+            product_mileage_price,
+            customer_grade_add_milege_except_yn,
+            adult_cert_yn,
+            file_image_detail_text,
+            file_image_list_text,
+            file_image_tiny_text,
+            file_image_small_text,
+            option_use_yn,
+            option_code,
+            made_code,
+            trend_code,
+            brand_code,
+            supply_code,
+            made_date,
+            release_date,
+            expire_start_date,
+            expire_end_date,
+            origin_place_code,
+            origin_place_no,
+            origin_place_etc_text,
+            hs_code,
+            product_weight,
+            product_material_text,
+            product_stock_count,
+            soldout_yn,
+            product_pc_discount_price,
+            product_mobile_discount_price,
+            product_summary_explain_text,
+            product_pc_detail_explain_text,
+            product_mobile_detail_explain_text,
+            product_benefit_text,
+            product_link_yn,
+            product_option_link_yn,
+            product_name_link_yn,
+            product_price_link_yn,
+            product_sell_link_yn,
+            product_stock_link_yn,
+            product_detail_link_yn,
+            product_del_relink_yn,
+            product_luna_link_yn,
+            product_register_date,
+            product_modify_date,
+            api_update_date,
+            create_date,
+            create_user_code,
+            create_user_no,
+            update_date,
+            update_user_code,
+            update_user_no
+        FROM db_product_link_service.tb_mall_smartstore_product_info
+    </select>
+
+    <select id="getProductInfoNewList" resultType="ProductInfo">
+        SELECT
+            mall_id,
+            product_no,
+            smartstore_product_no,
+            smartstore_product_custom_code,
+            product_name,
+            product_supply_name,
+            product_eng_name,
+            product_code,
+            product_custom_code,
+            model_name,
+            product_price,
+            product_retail_price,
+            product_supply_price,
+            product_category_no,
+            display_yn,
+            sell_yn,
+            del_yn,
+            product_stat_code,
+            product_use_month_count,
+            product_tag_text,
+            margin_rate,
+            tax_code,
+            tax_rate,
+            price_alter_text,
+            buy_limit_code,
+            buy_unit_code,
+            buy_unit_count,
+            order_limit_code,
+            order_min_count,
+            order_max_count,
+            product_mileage_price,
+            customer_grade_add_milege_except_yn,
+            adult_cert_yn,
+            file_image_detail_text,
+            file_image_list_text,
+            file_image_tiny_text,
+            file_image_small_text,
+            option_use_yn,
+            option_code,
+            made_code,
+            trend_code,
+            brand_code,
+            supply_code,
+            made_date,
+            release_date,
+            expire_start_date,
+            expire_end_date,
+            origin_place_code,
+            origin_place_no,
+            origin_place_etc_text,
+            hs_code,
+            product_weight,
+            product_material_text,
+            product_stock_count,
+            soldout_yn,
+            product_pc_discount_price,
+            product_mobile_discount_price,
+            product_summary_explain_text,
+            product_pc_detail_explain_text,
+            product_mobile_detail_explain_text,
+            product_benefit_text,
+            product_link_yn,
+            product_option_link_yn,
+            product_name_link_yn,
+            product_price_link_yn,
+            product_sell_link_yn,
+            product_stock_link_yn,
+            product_detail_link_yn,
+            product_del_relink_yn,
+            product_luna_link_yn,
+            product_register_date,
+            product_modify_date,
+            api_update_date,
+            create_date,
+            create_user_code,
+            create_user_no,
+            update_date,
+            update_user_code,
+            update_user_no
+        FROM db_product_link_service.tb_mall_smartstore_product_info
+        WHERE product_register_date <![CDATA[ >= ]]> (NOW() - INTERVAL #{term} MINUTE)
+           OR product_modify_date <![CDATA[ >= ]]> (NOW() - INTERVAL #{term} MINUTE)
     </select>
 
 </mapper>

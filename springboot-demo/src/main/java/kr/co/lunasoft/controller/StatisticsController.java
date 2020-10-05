@@ -19,7 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/stat")
 @Slf4j
-@Api(tags = {"99. stat"})
+@Api(tags = {"99. Statistics"})
 public class StatisticsController {
 
     @Autowired
@@ -64,5 +64,45 @@ public class StatisticsController {
         obj.put("data", list);
         return obj;
     }
+
+
+    @ApiOperation("migrate mysql data to elasticsearch")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = ResponseInfo.class)})
+    @GetMapping(value = "/db-to-es")
+    public Map<String, Object> dbToEs() {
+        statisticsService.migrateMysqlToElasticsearch();
+        Map<String, Object> obj = new HashMap<String, Object>();
+        obj.put("code", "100200");
+        obj.put("msg", "success");
+        obj.put("data", null);
+        return obj;
+    }
+
+    @ApiOperation("migrate mysql data to elasticsearch")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = ResponseInfo.class)})
+    @GetMapping(value = "/db-to-es-new")
+    public Map<String, Object> dbToEsNew(@RequestParam int term) {
+        Map<String, Object> param = new Hashtable<>();
+        param.put("term", term);
+        statisticsService.migrateMysqlToElasticsearchNew(param);
+        Map<String, Object> obj = new HashMap<String, Object>();
+        obj.put("code", "100200");
+        obj.put("msg", "success");
+        obj.put("data", null);
+        return obj;
+    }
+
+    @ApiOperation("migrate mysql data to elasticsearch")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = ResponseInfo.class)})
+    @GetMapping(value = "/db-to-es-rest")
+    public Map<String, Object> dbToEsRest() {
+        statisticsService.migrateMysqlToElasticsearchRest();
+        Map<String, Object> obj = new HashMap<String, Object>();
+        obj.put("code", "100200");
+        obj.put("msg", "success");
+        obj.put("data", null);
+        return obj;
+    }
+
 
 }

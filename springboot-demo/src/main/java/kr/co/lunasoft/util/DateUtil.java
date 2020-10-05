@@ -14,4 +14,13 @@ public class DateUtil {
 		return sdf.format(today);
 	}
 
+	public static String convertDateToString(Date date) {
+		if (date != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+			return sdf.format(date);
+		} else {
+			return null;
+		}
+	}
+
 }

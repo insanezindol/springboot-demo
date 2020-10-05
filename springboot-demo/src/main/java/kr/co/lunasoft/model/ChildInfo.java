@@ -2,10 +2,12 @@ package kr.co.lunasoft.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @ApiModel(value="ChildInfo", description="MongoDB Child Collection Object")
-@Data
+@Getter
+@Setter
 public class ChildInfo {
 	
 	@ApiModelProperty(value = "이름")

@@ -2,10 +2,12 @@ package kr.co.lunasoft.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @ApiModel(value="StatisticsInfo", description="Product Statistics Object")
-@Data
+@Getter
+@Setter
 public class StatisticsInfo {
 	
 	@ApiModelProperty(value = "몰아이디")

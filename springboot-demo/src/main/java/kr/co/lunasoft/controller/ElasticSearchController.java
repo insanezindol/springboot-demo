@@ -5,6 +5,7 @@ import kr.co.lunasoft.elasticsearch.UserDocument;
 import kr.co.lunasoft.elasticsearch.UserDocumentRepository;
 import kr.co.lunasoft.model.ResponseInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -36,10 +37,10 @@ public class ElasticSearchController {
                 result = userDocument;
             }
         } else if (searchType.equals("name")) {
-            List<UserDocument> list = userDocumentRepository.findByName(searchText);
+            List<UserDocument> list = userDocumentRepository.findByName(searchText, Sort.by(Sort.Direction.DESC, "logDate"));
             result = list;
         } else if (searchType.equals("age")) {
-            List<UserDocument> list = userDocumentRepository.findByAge(Integer.parseInt(searchText));
+            List<UserDocument> list = userDocumentRepository.findByAge(Integer.parseInt(searchText), Sort.by(Sort.Direction.DESC, "logDate"));
             result = list;
         }
 

@@ -2,10 +2,12 @@ package kr.co.lunasoft.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @ApiModel(value="UserInfo", description="MongoDB User Collection Object")
-@Data
+@Getter
+@Setter
 public class UserInfo {
 	
 	@ApiModelProperty(value = "번호 (PK)")

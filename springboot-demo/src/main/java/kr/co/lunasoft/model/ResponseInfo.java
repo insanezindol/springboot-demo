@@ -2,10 +2,12 @@ package kr.co.lunasoft.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @ApiModel(value="ResponseInfo", description="Default Response Object")
-@Data
+@Getter
+@Setter
 public class ResponseInfo {
 	
 	@ApiModelProperty(value = "응답 코드")

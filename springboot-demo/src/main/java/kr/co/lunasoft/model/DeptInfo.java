@@ -1,14 +1,16 @@
 package kr.co.lunasoft.model;
 
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "dept")
 public class DeptInfo {
