@@ -216,15 +216,3 @@ tail -f logs/springboot-demo.log
 # 특정 패키지 로그 레벨 변경
 # application.yml에서 logging.level.[패키지명] 설정
 ```
-
-## 기여 방법
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## 라이선스
-
-이 프로젝트는 MIT 라이선스 하에 배포됩니다.
